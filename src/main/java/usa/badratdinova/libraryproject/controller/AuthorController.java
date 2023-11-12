@@ -1,11 +1,10 @@
 package usa.badratdinova.libraryproject.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import usa.badratdinova.libraryproject.dto.AuthorCreateDto;
 import usa.badratdinova.libraryproject.dto.AuthorDto;
+import usa.badratdinova.libraryproject.dto.AuthorUpdateDto;
 import usa.badratdinova.libraryproject.service.AuthorService;
 
 @RestController
@@ -32,5 +31,20 @@ public class AuthorController {
     @GetMapping("/author/v3")
     AuthorDto getAuthorByNameV3(@RequestParam("name") String name) {
         return authorService.getAuthorByNameV3(name);
+    }
+
+    @PostMapping("/author/create")
+    AuthorDto createAuthor(@RequestBody AuthorCreateDto authorCreateDto) {
+        return authorService.createAuthor(authorCreateDto);
+    }
+
+    @PutMapping("/author/update")
+    AuthorDto updateAuthor(@RequestBody AuthorUpdateDto authorUpdateDto) {
+        return authorService.updateAuthor(authorUpdateDto);
+    }
+
+    @DeleteMapping("/author/delete/{id}")
+    void updateAuthor(@PathVariable("id") Long id) {
+        authorService.deleteAuthor(id);
     }
 }
