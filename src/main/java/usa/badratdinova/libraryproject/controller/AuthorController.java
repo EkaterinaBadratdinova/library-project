@@ -2,9 +2,9 @@ package usa.badratdinova.libraryproject.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import usa.badratdinova.libraryproject.dto.AuthorCreateDto;
+import usa.badratdinova.libraryproject.dto.create.AuthorCreateDto;
 import usa.badratdinova.libraryproject.dto.AuthorDto;
-import usa.badratdinova.libraryproject.dto.AuthorUpdateDto;
+import usa.badratdinova.libraryproject.dto.update.AuthorUpdateDto;
 import usa.badratdinova.libraryproject.service.AuthorService;
 
 @RestController

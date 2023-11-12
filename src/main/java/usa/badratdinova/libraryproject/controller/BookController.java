@@ -1,10 +1,11 @@
 package usa.badratdinova.libraryproject.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import usa.badratdinova.libraryproject.dto.create.BookCreateDto;
+import usa.badratdinova.libraryproject.dto.BookDto;
 import usa.badratdinova.libraryproject.dto.BookDto2;
+import usa.badratdinova.libraryproject.dto.update.BookUpdateDto;
 import usa.badratdinova.libraryproject.service.BookService;
 
 @RestController
@@ -26,5 +27,20 @@ public class BookController {
     @GetMapping("/book/v3")
     BookDto2 getBookByNameV3(@RequestParam("name") String name) {
         return bookService.getByNameV3(name);
+    }
+
+    @PostMapping("/book/create")
+    BookDto createBook(@RequestBody BookCreateDto bookCreateDto) {
+        return bookService.createBook(bookCreateDto);
+    }
+
+    @PutMapping("/book/update")
+    BookDto updateBook(@RequestBody BookUpdateDto bookUpdateDto) {
+        return bookService.updateBook(bookUpdateDto);
+    }
+
+    @DeleteMapping("/book/delete/{id}")
+    void deleteBook(@PathVariable("id") Long id) {
+        bookService.deleteBook(id);
     }
 }

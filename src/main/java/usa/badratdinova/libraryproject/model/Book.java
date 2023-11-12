@@ -1,10 +1,7 @@
 package usa.badratdinova.libraryproject.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Set;
 
@@ -20,10 +17,12 @@ public class Book {
     private Long id;
 
     @Column(nullable = false)
+    @Setter
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "genre_id")
+    @Setter
     private Genre genre;
 
     @ManyToMany

@@ -1,8 +1,8 @@
 package usa.badratdinova.libraryproject.service;
 
-import usa.badratdinova.libraryproject.dto.AuthorCreateDto;
+import usa.badratdinova.libraryproject.dto.create.AuthorCreateDto;
 import usa.badratdinova.libraryproject.dto.AuthorDto;
-import usa.badratdinova.libraryproject.dto.AuthorUpdateDto;
+import usa.badratdinova.libraryproject.dto.update.AuthorUpdateDto;
 
 public interface AuthorService {
     AuthorDto getAuthorById(Long id);

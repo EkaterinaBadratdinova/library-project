@@ -8,10 +8,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import usa.badratdinova.libraryproject.dto.*;
+import usa.badratdinova.libraryproject.dto.create.AuthorCreateDto;
+import usa.badratdinova.libraryproject.dto.update.AuthorUpdateDto;
 import usa.badratdinova.libraryproject.model.Author;
 import usa.badratdinova.libraryproject.repository.AuthorRepository;
 
-import java.awt.print.Book;
 import java.util.List;
 
 @Service

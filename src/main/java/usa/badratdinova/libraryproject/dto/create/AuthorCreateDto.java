@@ -1,4 +1,4 @@
-package usa.badratdinova.libraryproject.dto;
+package usa.badratdinova.libraryproject.dto.create;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Builder
-public class AuthorUpdateDto {
-    private Long id;
+public class AuthorCreateDto {
     private String name;
     private String surname;
 }

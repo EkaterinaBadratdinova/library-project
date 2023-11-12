@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import usa.badratdinova.libraryproject.dto.AuthorDto2;
 import usa.badratdinova.libraryproject.dto.BookDto;
 import usa.badratdinova.libraryproject.dto.GenreDto;
+import usa.badratdinova.libraryproject.dto.GenreResponseDto;
 import usa.badratdinova.libraryproject.model.Genre;
 import usa.badratdinova.libraryproject.repository.GenreRepository;
 
@@ -20,6 +21,19 @@ public class GenreServiceImpl implements GenreService {
     public GenreDto getAllBooksAndAuthorById(Long id) {
         Genre genre = genreRepository.findById(id).orElseThrow();
         return convertToDto(genre);
+    }
+
+    @Override
+    public GenreResponseDto getGenreByName(String name) {
+        Genre genre = genreRepository.findGenreByName(name).orElseThrow();
+        return convertEntityToDto(genre);
+    }
+
+    private GenreResponseDto convertEntityToDto(Genre genre) {
+        return GenreResponseDto.builder()
+                .id(genre.getId())
+                .name(genre.getName())
+                .build();
     }
 
     private GenreDto convertToDto(Genre genre) {
