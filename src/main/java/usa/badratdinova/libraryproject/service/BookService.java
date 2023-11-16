@@ -5,6 +5,8 @@ import usa.badratdinova.libraryproject.dto.BookDto;
 import usa.badratdinova.libraryproject.dto.BookDto2;
 import usa.badratdinova.libraryproject.dto.update.BookUpdateDto;
 
+import java.util.List;
+
 public interface BookService {
     BookDto2 getByNameV1(String name);
 
@@ -17,4 +19,6 @@ public interface BookService {
     BookDto updateBook(BookUpdateDto bookUpdateDto);
 
     void deleteBook(Long id);
+
+    List<BookDto> getAllBooks();
 }
