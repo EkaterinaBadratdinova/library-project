@@ -29,19 +29,19 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public AuthorDto getAuthorByNameV1(String name) {
+    public AuthorDto getAuthorByName(String name) {
         Author author = authorRepository.findAuthorByName(name).orElseThrow();
         return convertToDto(author);
     }
 
     @Override
-    public AuthorDto getAuthorByNameV2(String name) {
+    public AuthorDto getAuthorByNameBySql(String name) {
         Author author = authorRepository.findAuthorByNameBySql(name).orElseThrow();
         return convertToDto(author);
     }
 
     @Override
-    public AuthorDto getAuthorByNameV3(String name) {
+    public AuthorDto getAuthorByNameByCriteria(String name) {
         Specification<Author> specification = Specification.where(
                 new Specification<Author>() {
                     @Override
@@ -85,9 +85,9 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     private AuthorDto convertToDto(Author author) {
-        List<BookDto2> bookDtoList = author.getBooks()
+        List<BookDtoNameGenre> bookDtoList = author.getBooks()
                 .stream()
-                .map(book -> BookDto2.builder()
+                .map(book -> BookDtoNameGenre.builder()
                         .genre(book.getGenre().getName())
                         .name(book.getName())
                         .id(book.getId())
@@ -109,11 +109,11 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     private AuthorDto convertEntityToDto(Author author) {
-        List<BookDto2> bookDto2List = null;
+        List<BookDtoNameGenre> bookDtoNameGenre = null;
         if (author.getBooks() != null) {
-            bookDto2List = author.getBooks()
+            bookDtoNameGenre = author.getBooks()
                     .stream()
-                    .map(book -> BookDto2.builder()
+                    .map(book -> BookDtoNameGenre.builder()
                             .genre(book.getGenre().getName())
                             .name(book.getName())
                             .id(book.getId())
@@ -124,7 +124,7 @@ public class AuthorServiceImpl implements AuthorService {
                 .id(author.getId())
                 .name(author.getName())
                 .surname(author.getSurname())
-                .books(bookDto2List)
+                .books(bookDtoNameGenre)
                 .build();
         return authorDto;
     }

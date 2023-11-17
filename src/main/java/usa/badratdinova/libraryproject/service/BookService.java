@@ -2,17 +2,17 @@ package usa.badratdinova.libraryproject.service;
 
 import usa.badratdinova.libraryproject.dto.create.BookCreateDto;
 import usa.badratdinova.libraryproject.dto.BookDto;
-import usa.badratdinova.libraryproject.dto.BookDto2;
+import usa.badratdinova.libraryproject.dto.BookDtoNameGenre;
 import usa.badratdinova.libraryproject.dto.update.BookUpdateDto;
 
 import java.util.List;
 
 public interface BookService {
-    BookDto2 getByNameV1(String name);
+    BookDtoNameGenre getByName(String name);
 
-    BookDto2 getByNameV2(String name);
+    BookDtoNameGenre getByNameBySql(String name);
 
-    BookDto2 getByNameV3(String name);
+    BookDtoNameGenre getByNameByCriteria(String name);
 
     BookDto createBook(BookCreateDto bookCreateDto);
 

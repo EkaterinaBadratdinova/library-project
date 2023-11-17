@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Builder
-public class AuthorDto2 {
+public class AuthorDtoNameSurname {
     private Long id;
     private String name;
     private String surname;

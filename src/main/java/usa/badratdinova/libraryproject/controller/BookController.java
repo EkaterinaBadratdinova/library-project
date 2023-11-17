@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import usa.badratdinova.libraryproject.dto.create.BookCreateDto;
 import usa.badratdinova.libraryproject.dto.BookDto;
-import usa.badratdinova.libraryproject.dto.BookDto2;
+import usa.badratdinova.libraryproject.dto.BookDtoNameGenre;
 import usa.badratdinova.libraryproject.dto.update.BookUpdateDto;
 import usa.badratdinova.libraryproject.service.BookService;
 
@@ -15,18 +15,18 @@ public class BookController {
     private final BookService bookService;
 
     @GetMapping("/book")
-    BookDto2 getBookByName(@RequestParam("name") String name) {
-        return bookService.getByNameV1(name);
+    BookDtoNameGenre getBookByName(@RequestParam("name") String name) {
+        return bookService.getByName(name);
     }
 
     @GetMapping("/book/v2")
-    BookDto2 getBookByNameV2(@RequestParam("name") String name) {
-        return bookService.getByNameV2(name);
+    BookDtoNameGenre getBookByNameBySql(@RequestParam("name") String name) {
+        return bookService.getByNameBySql(name);
     }
 
     @GetMapping("/book/v3")
-    BookDto2 getBookByNameV3(@RequestParam("name") String name) {
-        return bookService.getByNameV3(name);
+    BookDtoNameGenre getBookByNameByCriteria(@RequestParam("name") String name) {
+        return bookService.getByNameByCriteria(name);
     }
 
     @PostMapping("/book/create")

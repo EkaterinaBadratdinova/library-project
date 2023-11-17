@@ -19,18 +19,18 @@ public class AuthorController {
     }
 
     @GetMapping("/author/v1")
-    AuthorDto getAuthorByNameV1(@RequestParam("name") String name) {
-        return authorService.getAuthorByNameV1(name);
+    AuthorDto getAuthorByName(@RequestParam("name") String name) {
+        return authorService.getAuthorByName(name);
     }
 
     @GetMapping("/author/v2")
-    AuthorDto getAuthorByNameV2(@RequestParam("name") String name) {
-        return authorService.getAuthorByNameV2(name);
+    AuthorDto getAuthorByNameBySql(@RequestParam("name") String name) {
+        return authorService.getAuthorByNameBySql(name);
     }
 
     @GetMapping("/author/v3")
-    AuthorDto getAuthorByNameV3(@RequestParam("name") String name) {
-        return authorService.getAuthorByNameV3(name);
+    AuthorDto getAuthorByNameByCriteria(@RequestParam("name") String name) {
+        return authorService.getAuthorByNameByCriteria(name);
     }
 
     @PostMapping("/author/create")

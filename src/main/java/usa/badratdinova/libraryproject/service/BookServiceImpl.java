@@ -31,19 +31,19 @@ public class BookServiceImpl implements BookService {
     private final AuthorRepository authorRepository;
 
     @Override
-    public BookDto2 getByNameV1(String name) {
+    public BookDtoNameGenre getByName(String name) {
         Book book = bookRepository.findBookByName(name).orElseThrow();
         return convertToDto(book);
     }
 
     @Override
-    public BookDto2 getByNameV2(String name) {
+    public BookDtoNameGenre getByNameBySql(String name) {
         Book book = bookRepository.findBookByNameBySql(name).orElseThrow();
         return convertToDto(book);
     }
 
     @Override
-    public BookDto2 getByNameV3(String name) {
+    public BookDtoNameGenre getByNameByCriteria(String name) {
         Specification<Book> specification = Specification.where(
                 new Specification<Book>() {
                     @Override
@@ -87,15 +87,15 @@ public class BookServiceImpl implements BookService {
         bookRepository.deleteById(id);
     }
 
-    private BookDto2 convertToDto(Book book) {
-        List<AuthorDto2> authors = book.getAuthors()
+    private BookDtoNameGenre convertToDto(Book book) {
+        List<AuthorDtoNameSurname> authors = book.getAuthors()
                 .stream()
-                .map(author -> AuthorDto2.builder()
+                .map(author -> AuthorDtoNameSurname.builder()
                         .name(author.getName())
                         .surname(author.getSurname())
                         .build())
                 .toList();
-        return BookDto2.builder()
+        return BookDtoNameGenre.builder()
                 .id(book.getId())
                 .genre(book.getGenre().getName())
                 .name(book.getName())
@@ -103,11 +103,11 @@ public class BookServiceImpl implements BookService {
     }
 
     private BookDto convertEntityToDto(Book book) {
-        List<AuthorDto2> authors = null;
+        List<AuthorDtoNameSurname> authors = null;
         if (book.getAuthors() != null) {
             authors = book.getAuthors()
                     .stream()
-                    .map(author -> AuthorDto2.builder()
+                    .map(author -> AuthorDtoNameSurname.builder()
                             .id(author.getId())
                             .name(author.getName())
                             .surname(author.getSurname())

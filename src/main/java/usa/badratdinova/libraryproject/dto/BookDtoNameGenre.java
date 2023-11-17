@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Builder
-public class BookDto2 {
+public class BookDtoNameGenre {
     private Long id;
     private String name;
     private String genre;

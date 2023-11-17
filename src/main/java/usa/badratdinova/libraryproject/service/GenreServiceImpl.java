@@ -2,7 +2,7 @@ package usa.badratdinova.libraryproject.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import usa.badratdinova.libraryproject.dto.AuthorDto2;
+import usa.badratdinova.libraryproject.dto.AuthorDtoNameSurname;
 import usa.badratdinova.libraryproject.dto.BookDto;
 import usa.badratdinova.libraryproject.dto.GenreDto;
 import usa.badratdinova.libraryproject.dto.GenreResponseDto;
@@ -45,7 +45,7 @@ public class GenreServiceImpl implements GenreService {
                         .id(book.getId())
                         .authors(book.getAuthors()
                                 .stream()
-                                .map(author -> AuthorDto2.builder()
+                                .map(author -> AuthorDtoNameSurname.builder()
                                         .id(author.getId())
                                         .name(author.getName())
                                         .surname(author.getSurname())
