@@ -5,6 +5,7 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import usa.badratdinova.libraryproject.dto.*;
@@ -17,33 +18,38 @@ import usa.badratdinova.libraryproject.repository.AuthorRepository;
 import usa.badratdinova.libraryproject.repository.BookRepository;
 import usa.badratdinova.libraryproject.repository.GenreRepository;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class BookServiceImpl implements BookService {
-
     private final BookRepository bookRepository;
     private final GenreRepository genreRepository;
     private final AuthorRepository authorRepository;
 
     @Override
     public BookDtoNameGenre getByName(String name) {
+        log.info("Try to find the book by name {}", name);
         Book book = bookRepository.findBookByName(name).orElseThrow();
-        return convertToDto(book);
+        BookDtoNameGenre bookDtoNameGenre = convertToDto(book);
+        log.info("The found book: {}", bookDtoNameGenre.toString());
+        return bookDtoNameGenre;
     }
 
     @Override
     public BookDtoNameGenre getByNameBySql(String name) {
+        log.info("Try to find the book by name {}", name);
         Book book = bookRepository.findBookByNameBySql(name).orElseThrow();
-        return convertToDto(book);
+        BookDtoNameGenre bookDtoNameGenre = convertToDto(book);
+        log.info("The found book: {}", bookDtoNameGenre.toString());
+        return bookDtoNameGenre;
     }
 
     @Override
     public BookDtoNameGenre getByNameByCriteria(String name) {
+        log.info("Try to find the book by name {}", name);
         Specification<Book> specification = Specification.where(
                 new Specification<Book>() {
                     @Override
@@ -55,36 +61,74 @@ public class BookServiceImpl implements BookService {
                 }
         );
         Book book = bookRepository.findOne(specification).orElseThrow();
-        return convertToDto(book);
+        BookDtoNameGenre bookDtoNameGenre = convertToDto(book);
+        log.info("The found book: {}", bookDtoNameGenre.toString());
+        return bookDtoNameGenre;
     }
 
     @Override
     public List<BookDto> getAllBooks() {
+        log.info("Try to find all books");
         List<Book> books = bookRepository.findAll();
+        log.info("All found books: {}", books.toString());
         return books.stream().map(this::convertEntityToDto).collect(Collectors.toList());
     }
 
     @Override
-    public BookDto createBook(BookCreateDto bookCreateDto) {
-        Book book = bookRepository.save(convertDtoToEntity(bookCreateDto));
-        BookDto bookDto = convertEntityToDto(book);
-        return bookDto;
+    public BookDto createBook(BookCreateDto bookCreateDto) throws Exception {
+        log.info("Try to create the book: {}", bookCreateDto.toString());
+        Optional<Book> existingBook = bookRepository.findBookByName(bookCreateDto.getName());
+        if (existingBook.isPresent()) {
+            log.error("The book already exists");
+            throw new Exception("The book already exists");
+        } else {
+            Book book = bookRepository.save(convertDtoToEntity(bookCreateDto));
+            BookDto bookDto = convertEntityToDto(book);
+            log.info("The book {} was created", bookDto.toString());
+            return bookDto;
+        }
     }
 
     @Override
     public BookDto updateBook(BookUpdateDto bookUpdateDto) {
-        Book book = bookRepository.findById(bookUpdateDto.getId()).orElseThrow();
+        log.info("Try to update the book that has the next fields: {}", bookUpdateDto.toString());
+        Optional<Book> optionalBook = bookRepository.findById(bookUpdateDto.getId());
+        if (optionalBook.isEmpty()) {
+            log.error("There is no book with such id. To update the book firstly create it.");
+            throw new NoSuchElementException("There is no book with such id. To update the book firstly create it.");
+        }
+        Book book = optionalBook.get();
+        Optional<Genre> genre = genreRepository.findGenreByName(bookUpdateDto.getGenre());
+        if (genre.isEmpty()) {
+            log.error("There is no genre with such name. Create the genre.");
+            throw new NoSuchElementException("There is no genre with such name. Create the genre.");
+        }
+        Set<Author> authorList = bookUpdateDto.getAuthors()
+                .stream()
+                .map(author -> {
+                            Optional<Author> existingAuthor = authorRepository.findAuthorByNameAndSurname(author.getName(), author.getSurname());
+                            if (existingAuthor.isEmpty()) {
+                                log.error("There is no author with such name and surname. To update the book create the author.");
+                                throw new NoSuchElementException("There is no author with such name and surname. To update a book create the author.");
+                            } else {
+                                return existingAuthor.get();
+                            }
+                        }
+                ).collect(Collectors.toSet());
         book.setName(bookUpdateDto.getName());
-        Genre genre = genreRepository.findGenreByName(bookUpdateDto.getGenre()).orElseThrow();
-        book.setGenre(genre);
+        book.setGenre(genre.get());
+        book.setAuthors(authorList);
         Book savedBook = bookRepository.save(book);
         BookDto bookDto = convertEntityToDto(savedBook);
+        log.info("The book {} was updated", bookDto.toString());
         return bookDto;
     }
 
     @Override
     public void deleteBook(Long id) {
+        log.info("Try to delete the book by id: {}", id);
         bookRepository.deleteById(id);
+        log.info("The book with id: {} was deleted", id);
     }
 
     private BookDtoNameGenre convertToDto(Book book) {
@@ -123,13 +167,24 @@ public class BookServiceImpl implements BookService {
     }
 
     private Book convertDtoToEntity(BookCreateDto bookCreateDto) {
-        Author author = authorRepository.findAuthorByName(bookCreateDto.getAuthorName()).orElseThrow();
-        Set<Author> authorList = new HashSet<>();
-        authorList.add(author);
-        Genre genre = genreRepository.findGenreByName(bookCreateDto.getGenre()).orElseThrow();
+        Optional<Genre> genre = genreRepository.findGenreByName(bookCreateDto.getGenre());
+        if (genre.isEmpty()) {
+            throw new NoSuchElementException("There is no genre with such name. Create the genre.");
+        }
+        Set<Author> authorList = bookCreateDto.getAuthors()
+                .stream()
+                .map(author -> {
+                    Optional<Author> existingAuthor = authorRepository.findAuthorByNameAndSurname(author.getName(), author.getSurname());
+                    if (existingAuthor.isEmpty()) {
+                        throw new NoSuchElementException("There is no author with such name and surname. Create the author.");
+                    } else {
+                        return existingAuthor.get();
+                    }
+                }
+                ).collect(Collectors.toSet());
         return Book.builder()
                 .name(bookCreateDto.getName())
-                .genre(genre)
+                .genre(genre.get())
                 .authors(authorList)
                 .build();
     }

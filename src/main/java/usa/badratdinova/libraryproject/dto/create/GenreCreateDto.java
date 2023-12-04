@@ -11,11 +11,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Builder
-public class AuthorCreateDto {
-    @Size(min = 3, max = 10)
-    @NotBlank(message = "Name is required.")
+public class GenreCreateDto {
+    @Size(min = 3, max = 30)
+    @NotBlank(message = "Enter the name of the genre")
     private String name;
-    @Size(min = 1, max = 30)
-    @NotBlank(message = "Surname is required.")
-    private String surname;
 }
