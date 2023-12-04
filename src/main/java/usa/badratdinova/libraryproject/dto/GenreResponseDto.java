@@ -10,6 +10,5 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class GenreResponseDto {
-    private Long id;
     private String name;
 }

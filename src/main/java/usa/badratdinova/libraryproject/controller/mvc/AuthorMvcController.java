@@ -1,4 +1,4 @@
-package usa.badratdinova.libraryproject.controller;
+package usa.badratdinova.libraryproject.controller.mvc;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -9,7 +9,6 @@ import usa.badratdinova.libraryproject.service.AuthorService;
 @Controller
 @RequiredArgsConstructor
 public class AuthorMvcController {
-
     private final AuthorService authorService;
 
     @GetMapping("/authors")

@@ -15,7 +15,7 @@ public interface AuthorService {
 
     AuthorDto getAuthorByNameByCriteria(String name);
 
-    AuthorDto createAuthor(AuthorCreateDto authorCreateDto);
+    AuthorDto createAuthor(AuthorCreateDto authorCreateDto) throws Exception;
 
     AuthorDto updateAuthor(AuthorUpdateDto authorUpdateDto);
 

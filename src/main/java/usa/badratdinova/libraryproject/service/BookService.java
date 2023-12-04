@@ -14,7 +14,7 @@ public interface BookService {
 
     BookDtoNameGenre getByNameByCriteria(String name);
 
-    BookDto createBook(BookCreateDto bookCreateDto);
+    BookDto createBook(BookCreateDto bookCreateDto) throws Exception;
 
     BookDto updateBook(BookUpdateDto bookUpdateDto);
 
