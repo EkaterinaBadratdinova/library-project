@@ -6,5 +6,12 @@
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
 
     <include file="changelog/2023_10_17.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/2023_11_23.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/2023_11_25.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/2023_11_26.1.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/2023_11_26.2.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/2023_11_26.3.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/2023_12_03.1.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/2023_12_03.2.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

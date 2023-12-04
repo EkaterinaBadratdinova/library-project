@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet id="update passwords in table users" author="author name">
+        <sql>
+
+            UPDATE users SET password = '4ernicaBerry' WHERE id = 1;
+
+            UPDATE users SET password = 'SuperHero007' WHERE id = 2;
+
+            UPDATE users SET password = 'Deny+Many' WHERE id = 3;
+
+        </sql>
+    </changeSet>
+</databaseChangeLog>
