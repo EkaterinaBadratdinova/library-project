@@ -45,7 +45,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers(HttpMethod.GET, "/api/**").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/authors", "/author/**", "/book/**", "/genre/**","/books/**").permitAll()
+                        .requestMatchers("/authors", "/author/**", "/book/**", "/genre/**","/books/**").hasRole("USER")
                         .anyRequest().authenticated()
                 )
                 .httpBasic(Customizer.withDefaults());
